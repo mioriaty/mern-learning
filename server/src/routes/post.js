@@ -1,6 +1,6 @@
 const express = require("express");
-const verifyToken = require("../middleware/auth");
-const postController = require('../Controllers/PostController');
+const verifyToken = require("../middleware/verifyToken");
+const postController = require("../Controllers/PostController");
 const router = express.Router();
 
 /**
@@ -13,10 +13,16 @@ router.post("/", verifyToken, postController.create);
 
 /**
  * @route GET api/posts
- * @description Get all posts
+ * @description Get all posts by user
  * @access private
  */
+router.get("/", verifyToken, postController.getAllPostsByUser);
 
-router.get('/', postController.getAll);
+/**
+ * @route PUT api/posts
+ * @description Update post
+ * @access private
+ */
+router.put("/:id", verifyToken, postController.updateById);
 
 module.exports = router;
